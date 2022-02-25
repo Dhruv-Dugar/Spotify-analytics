@@ -3,6 +3,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from dotenv import load_dotenv
 
+# using .env to store the credentials, and then storing in a dictionary for easy access
 load_dotenv()
 
 credentials = {
@@ -10,8 +11,11 @@ credentials = {
     "client_secret": os.getenv("CLIENT_SECRET"),
 }
 
+
+# Led Zeppelin spotify url
 lz_uri = 'spotify:artist:36QJpDe2go2KgaRleHCDTp'
 
+# authenticate with the spotify API using our tokens and secret
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id=credentials["client_id"],
                                                                               client_secret=credentials[
                                                                                   "client_secret"]))
