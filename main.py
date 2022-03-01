@@ -1,3 +1,5 @@
+# reusing the repository for the CSA Backend recruitment task
+
 import os
 import tekore as tk
 from dotenv import load_dotenv
@@ -11,10 +13,42 @@ credentials = {
     "redirect_uri": os.getenv("REDIRECT_URI"),
 }
 
-conf = (credentials["client_id"], credentials["client_secret"], credentials["redirect_uri"])
 
-token = tk.prompt_for_user_token(*conf, scope=tk.scope.every)
+def search(spotify):
+    print("Search for artist/song?:")
+    search_term = input("Enter your search term: ")
+    if search_term.lower() == "artist":
+        print("Searching for artists...")
+        search_type = "artist"
+        artists = spotify.search(search_term, search_type, limit=10)
+        print(artists)
+    elif search_term.lower() == "song":
+        print("Searching for songs...")
+        search_type = "track"
+        print("todo")
 
-spotify = tk.Spotify(token)
-tracks = spotify.current_user_top_tracks(limit=10)
-spotify.playback_start_tracks([t.id for t in tracks.items])
+def main():
+    # main function and the script entry point
+    conf = (credentials["client_id"], credentials["client_secret"], credentials["redirect_uri"])
+    token = tk.prompt_for_user_token(*conf, scope=tk.scope.every)
+    # making the class object
+    spotify = tk.Spotify(token)
+    print(f"Welcome {spotify.current_user()['display_name']}")
+    print("Options:")
+    print("1. Search")
+    print("2. Control Playback")
+    print("3. Exit")
+    choice = input("Enter your choice: ")
+    if choice == "1":
+        search(spotify)
+    elif choice == "2":
+        # playback(spotify)
+        print("todo")
+    elif choice == "3":
+        exit()
+    else:
+        print("Invalid choice")
+        exit()
+
+
+main()
